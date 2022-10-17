@@ -1,3 +1,5 @@
+// Archive version
+
 import {INVENTORY} from "./fakeDB.js"
 
 const mainBox = document.getElementById("mainBox");
