@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>The Wall</title>
+        <link rel="stylesheet" href="private.css">
+        <script type="module" src="private.js"></script>
+    </head>
+
+    <body>
+        <h1>The Wall</h1>
+        <h2 id="greeting">
+            Hi, <%= user.name %> 👋
+        </h2>
+        <div id="signBox">
+            <form action="/logout" method="post">
+                <input type="submit" value="SIGN OUT" id="signOutButton">
+            </form>
+        </div>
+        <div id="mainBox"></div>
+    </body>
+
+</html>

@@ -1,0 +1,12 @@
+# general
+.DS_Store
+
+# dependency directories
+node_modules/
+
+# local test directories
+test/
+sandbox/
+
+# dotenv environment variables file
+.env
