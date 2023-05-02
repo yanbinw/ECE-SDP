@@ -36,15 +36,34 @@ export class Database {
         await this.client.query(queryText);
     }
 
-    async userTable_findUser(name) {
+    async userTable_getUserByName(username) {
         try {
-            const queryText = `SELECT * FROM userTable WHERE name = '${name}';`;
+            const queryText = `SELECT * FROM userTable WHERE username = '${username}';`;
             const res = await this.client.query(queryText);
             return res.rows;
         }
         catch (error) {
             return [];
         }
+    }
+
+    async userTable_getUserByEmail(email) {
+        try {
+            const queryText = `SELECT * FROM userTable WHERE email = '${email}';`;
+            const res = await this.client.query(queryText);
+            return res.rows;
+        }
+        catch (error) {
+            return [];
+        }
+    }
+
+    async userTable_addUser(username, email, password, role) {
+        const queryText = `
+            INSERT INTO userTable (username, email, password, role)
+            VALUES ('${username}', '${email}', '${password}', '${role}');
+        `;
+        await this.client.query(queryText);
     }
 
     async itemTable_initialize() {
@@ -61,9 +80,20 @@ export class Database {
         await this.client.query(queryText);
     }
 
-    async itemTable_findItem(name) {
+    async itemTable_getItemByName(name) {
         try {
             const queryText = `SELECT * FROM itemTable WHERE name = '${name}';`;
+            const res = await this.client.query(queryText);
+            return res.rows;
+        }
+        catch (error) {
+            return [];
+        }
+    }
+
+    async itemTable_getItemByID(id) {
+        try {
+            const queryText = `SELECT * FROM itemTable WHERE id = '${id}';`;
             const res = await this.client.query(queryText);
             return res.rows;
         }
@@ -82,9 +112,9 @@ export class Database {
         await this.client.query(queryText);
     }
 
-    async categoryTable_getAllName() {
+    async categoryTable_getAll() {
         try {
-            const queryText = `SELECT name FROM categorytable;`;
+            const queryText = `SELECT * FROM categorytable;`;
             const res = await this.client.query(queryText);
             return res.rows;
         }
@@ -95,14 +125,14 @@ export class Database {
 
     // JOIN
 
-    async getItemByCategory(category) {
+    async getItemByCategoryName(name) {
         try {
             const queryText = `
-                SELECT item.name 
+                SELECT item.* 
                 FROM itemTable AS item 
                 JOIN itemCategory AS ic ON item.id = ic.itemid 
                 JOIN categoryTable AS category ON category.id = ic.categoryid 
-                WHERE category.name = '${category}';
+                WHERE category.name = '${name}';
             `;
             const res = await this.client.query(queryText);
             return res.rows;

@@ -8,7 +8,7 @@ const { Strategy } = passportLocal;
 const strategy = new Strategy(
     async (username, password, done) => {
         const userData = await user.validateUser(username, password);
-        switch (state) {
+        switch (userData) {
             case "INVALID_USER":
                 return done(null, false, { message: `<${username}> user not found` });
             case "INVALID_PASSWORD":
@@ -23,7 +23,15 @@ const strategy = new Strategy(
 );
 
 passport.use(strategy);
-passport.serializeUser((user, done) => done(null, user));
+passport.serializeUser(
+    (user, done) => done(
+        null,
+        {
+            username: user["username"],
+            role: user["role"]
+        }
+    )
+);
 passport.deserializeUser((uid, done) => done(null, uid));
 
 export default {

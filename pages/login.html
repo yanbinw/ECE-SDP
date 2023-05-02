@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>The Wall</title>
+        <link rel="stylesheet" href="login.css">
+        <script type="module" src="login.js"></script>
+    </head>
+
+    <body>
+        <h1>The Wall</h1>
+        <h2>SIGN IN 👋</h2>
+        <div id="mainBox">
+            <form action="/login" method="post">
+                <label>Username:</label>
+                <input type="text" name="username">
+                <br><br>
+                <label>Password:</label>
+                <input type="password" name="password">
+                <br><br>
+                <input type="submit" value="Submit" id="submitButton">
+            </form>
+            <form action="/" method="post">
+                <input type="submit" value="Back" id="backButton">
+            </form>
+        </div>
+    </body>
+
+</html>

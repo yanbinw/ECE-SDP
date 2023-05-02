@@ -7,19 +7,30 @@
         <title>The Wall</title>
         <link rel="stylesheet" href="main.css">
         <script type="module" src="client.js"></script>
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     </head>
 
     <body>
-        <h1>The Wall</h1>
-        <div id="signBox">
-            <form action="/login" method="post">
-                <input type="submit" value="SIGN IN" id="signInButton">
-            </form>
-            <form action="/register" method="post">
-                <input type="submit" value="SIGN UP" id="signUpButton">
-            </form>
+        <div id="header">
+            <div id="titleBar">
+                <h1>The Wall</h1>
+            </div>
+            <div id="menuButtonBox">
+                <span id="menuButton" class="material-symbols-outlined">menu</span>
+            </div>
+            <div id="signBox">
+                <form action="/login" method="post">
+                    <input type="submit" value="SIGN IN" id="signInButton">
+                </form>
+                <form action="/register" method="post">
+                    <input type="submit" value="SIGN UP" id="signUpButton">
+                </form>
+            </div>
         </div>
-        <div id="mainBox"></div>
+        <div id="mainBox">
+            <div id="contentBox"></div>
+        </div>
     </body>
 
 </html>

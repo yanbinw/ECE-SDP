@@ -4,7 +4,7 @@
     "description": "",
     "type": "module",
     "scripts": {
-        "start": "node server/index.js"
+        "start": "nodemon server/main.js"
     },
     "license": "ISC",
     "dependencies": {
@@ -23,6 +23,7 @@
         "@types/morgan": "^1.9.4",
         "@types/passport": "^1.0.12",
         "@types/passport-local": "^1.0.35",
-        "@types/pg": "^8.6.6"
+        "@types/pg": "^8.6.6",
+        "nodemon": "^2.0.22"
     }
 }

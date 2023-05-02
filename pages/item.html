@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>The Wall</title>
+        <link rel="stylesheet" href="item.css">
+        <script type="module" src="item.js"></script>
+    </head>
+
+    <body>
+        <div id="itemNameBox">
+            <h1 id="itemName"><%= item.name %></h1>
+        </div>
+        <div id="mainBox">
+            <div id="itemButtonBox"></div>
+            <div id="itemDescriptionsBox">
+                <h2 id="itemDescriptions">Item Descriptions</h2>
+                <p><%= item.description %></p>
+            </div>
+            <div id="itemDatasheetBox">
+                <h2 id="temDatasheet">Item Datasheet</h2>
+                <p><%= item.datasheet %></p>
+            </div>
+            <div id="itemImageBox">
+                <img id="itemImage" src="<%= item.image %>" alt="<%= item.name %>">
+            </div>
+            <div id="itemShowBox"></div>
+        </div>
+    </body>
+
+</html>

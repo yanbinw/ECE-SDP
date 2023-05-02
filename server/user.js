@@ -17,7 +17,7 @@ class User {
     }
     
     async validateUser(username, password) {
-        const data = await this.database.init.userTable_findUser(username);
+        const data = await this.database.init.userTable_getUserByName(username);
         if (data.length === 0) {
             return "INVALID_USER";
         }
@@ -30,7 +30,18 @@ class User {
         return userData;
     }
 
-    addUser(username, email, password, role) {}
+    async addUser(username, email, password, role) {
+        const usernameCheck = await this.database.init.userTable_getUserByName(username);
+        if (usernameCheck.length === 0) {
+            const emailCheck = await this.database.init.userTable_getUserByEmail(email);
+            if (emailCheck.length === 0) {
+                await this.database.init.userTable_addUser(username, email, password, role);
+                return "SUCCESS";
+            }
+            return "REGISTERED_EMAIL";
+        }
+        return "REGISTERED_USER";
+    }
 }
 
 const user = new User();

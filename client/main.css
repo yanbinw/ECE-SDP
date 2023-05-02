@@ -1,0 +1,95 @@
+:root {
+    --red: #FF6A50;
+    --purple: #8C46B9;
+    --yellow: #FFB81D;
+    --blue: #5AB6E2;
+    --green: #4ED072;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--blue);
+    min-height: 100vh;
+}
+
+#header {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+#titleBar {
+    padding: 0.5rem;
+    color: white;
+    background-color: var(--purple);
+    border: 1px solid var(--purple);
+    border-radius: 1rem;
+}
+
+#menuButtonBox {
+    display: none;
+}
+
+#signBox {
+    display: flex;
+}
+
+#signBox * {
+    margin: 0.5rem;
+}
+
+#mainBox {
+    margin: 10vw;
+    display: flex;
+    border-radius: 2rem;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(
+        to right bottom,
+        rgba(255, 255, 255, 0.7),
+        rgba(255, 255, 255, 0.3)
+    );
+    backdrop-filter: blur(2rem);
+}
+
+.card {
+    margin: 1rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.itemList {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.item {
+    flex-grow: 1;
+    margin: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--green);
+    border: 0.1rem solid var(--green);
+    border-radius: 1rem;
+}
+
+.itemButton {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+@media screen and (max-width: 480px) {
+    #menuButtonBox {
+        display: grid;
+    }
+    #signBox {
+        display: none;
+    }
+}

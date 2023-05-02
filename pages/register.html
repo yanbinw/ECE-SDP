@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>The Wall</title>
+        <link rel="stylesheet" href="register.css">
+        <script type="module" src="register.js"></script>
+    </head>
+
+    <body>
+        <h1>The Wall</h1>
+        <h2>SIGN UP</h2>
+        <div id="mainBox">
+            <% if (message) { %>
+                <div id="messageBox">
+                    <p><%= message %></p>
+                </div>
+            <% } %>
+            <form action="/register" method="post">
+                <input type="text" name="username" placeholder="USERNAME" pattern="[\w]{3,30}" required>
+                <br><br>
+                <input type="email" name="email" placeholder="UMASS EMAIL" pattern="[a-z0-9._%+-]+@umass\.edu" required>
+                <br><br>
+                <input type="password" name="password" placeholder="PASSWORD" pattern="[\S]{6,30}" required id="password">
+                <br><br>
+                <input type="password" placeholder="CONFIRM PASSWORD" pattern="[\S]{6,30}" id="confirmPassword">
+                <br><br>
+                <input type="submit" value="Submit" id="submitButton">
+            </form>
+            <form action="/" method="post">
+                <input type="submit" value="Back" id="backButton">
+            </form>
+        </div>
+    </body>
+
+</html>

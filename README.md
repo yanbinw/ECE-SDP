@@ -17,3 +17,6 @@
 ## APIs
 
 ## TODOs
+
+- change `server/index.js` -> "/register": spearate user and email
+- change `client/register/register.js`: Password Validation Form

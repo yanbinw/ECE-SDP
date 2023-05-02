@@ -4,8 +4,8 @@ import { user } from "./user.js";
 import auth from "./auth.js";
 
 import { fileURLToPath } from "url";
-import { dirname } from "path";
 
+import path from "path";
 import ejs from "ejs"
 import express from "express";
 import expressSession from "express-session";
@@ -15,7 +15,7 @@ import "dotenv/config";
 
 // We will use __dirname later on to send files back to the client.
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(dirname(__filename));
+const __dirname = path.dirname(path.dirname(__filename));
 
 const app = express();
 const port = process.env.PORT || 62300;
@@ -26,8 +26,8 @@ const sessionConfig = {
     saveUninitialized: false
 }
 
-app.engine('html', ejs.renderFile);
-app.set('view engine', 'html');
+app.engine("html", ejs.renderFile);
+app.set("view engine", "html");
 app.use(expressSession(sessionConfig));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -78,7 +78,41 @@ function checkLoggedOut(request, response, next) {
     );
 }
 
+/**
+ * @param {express.Response} response
+ */
+async function postItemByCategory(response) {
+    const categoryList = await database.init.categoryTable_getAll();
+    const itemData = await Promise.all(
+        categoryList.map(
+            async (category) => {
+                const itemList = await database.init.getItemByCategoryName(category.name);
+                const result = {
+                    "category": category.name,
+                    "items": itemList
+                };
+                return result;
+            }
+        )
+    );
+    // const itemList = await database.init.getItemByCategory(categoryList[0].name);
+    // const result = {
+    //     "category": categoryList[0],
+    //     "items": itemList
+    // }
+    response.writeHead(200, headerFields);
+    response.write(JSON.stringify(itemData));
+    response.end();
+}
+
 // API
+
+app.post(
+    "/postItemByCategory",
+    (request, response) => {
+        postItemByCategory(response);
+    }
+);
 
 // Router
 
@@ -106,10 +140,16 @@ app.get("/logout", checkLoggedOut);
 
 app.post(
     "/register",
-    (request, response) => {
-        const { username, password } = request.body;
-        if (users.addUser(username, password)) {
-            response.redirect("/login");
+    async (request, response) => {
+        if (request.body.username) {
+            const { username, email, password } = request.body;
+            const state = await user.addUser(username, email, password, "user");
+            if (state === "SUCCESS") {
+                response.redirect("/login");
+            }
+            else {
+                response.redirect("/register/" + state);
+            }
         }
         else {
             response.redirect("/register");
@@ -117,7 +157,14 @@ app.post(
     }
 );
 
-app.get("/register", (request, response) => response.sendFile("pages/register.html", { root: __dirname }));
+app.get("/register", (request, response) => response.render(path.join(__dirname, "/pages", "register.html"), { message: undefined }));
+
+app.get(
+    "/register/:errorState/",
+    (request, response) => {
+        response.render(path.join(__dirname, "/pages", "register.html"), { message: request.params.errorState });
+    }
+);
 
 app.get(
     "/private",
@@ -132,7 +179,7 @@ app.get(
     checkLoggedIn,
     (request, response) => {
         if (request.params.userID === request.user.username) {
-            response.render("pages/register.html", { user: request.user }, { root: __dirname });
+            response.render(path.join(__dirname, "/pages", "private.html"), { user: request.user });
         }
         else {
             response.redirect("/private");
@@ -144,7 +191,6 @@ app.post(
     "/item",
     (request, response) => {
         const { itemID } = request.body;
-        // console.log(request.body);
         response.redirect("/item/" + itemID);
     }
 );
@@ -152,43 +198,21 @@ app.post(
 app.get(
     "/item",
     checkLoggedIn,
-    (request, response) => {
-        response.redirect("/itemNotFound");
-    }
+    (request, response) => response.sendFile("pages/item-not-found.html", { root: __dirname })
 );
 
 app.get(
     "/item/:itemID/",
     checkLoggedIn,
     async (request, response) => {
-        const data = await database.init.itemTable_findItem(request.params.itemID);
+        const data = await database.init.itemTable_getItemByID(request.params.itemID);
         if (data.length > 0) {
-            response.sendFile("pages/item.html", { root: __dirname });
+            const itemData = data[0];
+            response.render(path.join(__dirname, "/pages", "item.html"), { item: itemData });
         }
         else {
-            response.redirect("/private");
+            response.redirect("/item");
         }
-    }
-);
-
-app.get(
-    "/itemNotFound",
-    checkLoggedIn,
-    (request, response) => response.sendFile("client/itemNotFound.html", { root: __dirname })
-);
-
-app.post(
-    "/searchItemByName",
-    (request, response) => {
-        const { name } = request.body;
-        postItemByName(response, name);
-    }
-);
-
-app.post(
-    "/postAllItemName",
-    (request, response) => {
-        postAllItemName(response);
     }
 );
 
